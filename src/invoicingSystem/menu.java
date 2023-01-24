@@ -1,0 +1,360 @@
+package invoicingSystem;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Scanner;
+public class menu {
+	private shop shop;
+    public menu(shop shop) {
+        this.shop = shop;
+    }
+    private int mainMenuSelectionCount = 0;
+    private int shopSettingsMenuSelectionCount =0;
+    private int manageShopItemsMenuSelectionCount=0;
+    private int createNewInvoiceMenuSelectionCount=0;
+    private int reportStatisticsMenuSelectionCount=0;
+    private int reportAllInvoicesMenuSelectionCount=0;
+    private int searchInvoiceMenuSelectionCount=0;
+    private int programStatisticsMenuSelectionCount=0;
+
+
+
+
+    public void showMainMenu() {
+        mainMenuSelectionCount++;
+        System.out.println("--- Main Menu ---");
+        System.out.println("1. Shop Settings");
+        System.out.println("2. Manage Shop Items");
+        System.out.println("3. Create New Invoice");
+        System.out.println("4. Report: Statistics");
+        System.out.println("5. Report: All Invoices");
+        System.out.println("6. Search (by Invoice No)");
+        System.out.println("7. Program Statistics");
+        System.out.println("8. Exit");
+        System.out.print("Please make a selection: ");
+
+        Scanner scanner = new Scanner(System.in);
+        int selection = scanner.nextInt();
+
+        switch (selection) {
+            case 1:
+                showShopSettingsMenu();
+                break;
+            case 2:
+                showManageShopItemsMenu();
+                break;
+            case 3:
+                showCreateNewInvoiceMenu();
+                break;
+            case 4:
+                showReportStatisticsMenu();
+                break;
+            case 5:
+                showReportAllInvoicesMenu();
+                break;
+            case 6:
+                showSearchInvoiceMenu();
+                break;
+            case 7:
+                showProgramStatisticsMenu();
+                break;
+            case 8:
+                System.out.print("Are you sure you want to exit? (y/n): ");
+                String confirm = scanner.next();
+                if (confirm.equalsIgnoreCase("y")) {
+                    this.shop.saveData();
+                    System.out.println("Thank you for using the program!");
+                    System.exit(0);
+                } else {
+                    showMainMenu();
+                }
+                shop.saveData();
+                break;
+            default:
+                System.out.println("Invalid selection, please try again.");
+                showMainMenu();
+                break;
+        }
+    }
+
+    public void showShopSettingsMenu() {
+        this.shopSettingsMenuSelectionCount++;
+        System.out.println("--- Shop Settings ---");
+        System.out.println("1. Load Data");
+        System.out.println("2. Set Shop Name");
+        System.out.println("3. Set Invoice Header (Tel / Fax / Email / Website)");
+        System.out.println("4. Go Back");
+        System.out.print("Please make a selection: ");
+
+        Scanner scanner = new Scanner(System.in);
+        int selection = scanner.nextInt();
+
+        switch (selection) {
+            case 1:
+            	 boolean success = shop.loadData();
+                 if (success) {
+                     System.out.println("Data loaded successfully.");
+                 } else {
+                     System.out.println("Error loading data, please try again.");
+                 }
+                 showShopSettingsMenu();
+                 break;
+            case 2:
+                System.out.print("Please enter the shop name: ");
+                String shopName = scanner.next();
+                shop.setShopName(shopName);
+                System.out.println("Shop name set successfully.");
+                showShopSettingsMenu();
+                break;
+            case 3:
+                System.out.print("Please enter the tel: ");
+                String tel = scanner.next();
+                shop.setTel(tel);
+                System.out.print("Please enter the fax: ");
+                String fax = scanner.next();
+                shop.setFax(fax);
+                System.out.print("Please enter the email: ");
+                String email = scanner.next();
+                shop.setEmail(email);
+                System.out.print("Please enter the website: ");
+                String website = scanner.next();
+                shop.setWebsite(website);
+                System.out.println("Invoice header set successfully.");
+                showShopSettingsMenu();
+                break;
+            case 4:
+                showMainMenu();
+                break;
+            default:
+                System.out.println("Invalid selection, please try again.");
+                showShopSettingsMenu();
+                break;
+        }
+    }
+
+    public void showManageShopItemsMenu() {
+        this.manageShopItemsMenuSelectionCount++;
+        System.out.println("--- Manage Shop Items ---");
+        System.out.println("1. Add Items");
+        System.out.println("2. Delete Items");
+        System.out.println("3. Change Item Price");
+        System.out.println("4. Report All Items");
+        System.out.println("5. Go Back");
+        System.out.print("Please make a selection: ");
+
+        Scanner scanner = new Scanner(System.in);
+        int selection = scanner.nextInt();
+
+        switch (selection) {
+            case 1:
+                System.out.print("Please enter the item ID: ");
+                int itemId = scanner.nextInt();
+                System.out.print("Please enter the item name: ");
+                String itemName = scanner.next();
+                System.out.print("Please enter the unit price: ");
+                double unitPrice = scanner.nextDouble();
+                System.out.print("Please enter the quantity: ");
+                int quantity = scanner.nextInt();
+                item item = new item();
+                item.setitemID(itemId);
+                item.setItemName(itemName);
+                item.setUnitPrice(unitPrice);
+                item.setQuantity(quantity);
+                shop.addItem(item);
+                System.out.println("Item added successfully.");
+                showManageShopItemsMenu();
+                break;
+            case 2:
+                System.out.print("Please enter the item ID: ");
+                int deleteItemId = scanner.nextInt();
+                this.shop.deleteItem(deleteItemId);
+                System.out.println("Item deleted successfully.");
+                showManageShopItemsMenu();
+                break;
+            case 3:
+                System.out.print("Please enter the item ID: ");
+                int changeItemId = scanner.nextInt();
+                System.out.print("Please enter the new price: ");
+                double newPrice = scanner.nextDouble();
+                this.shop.changeItemPrice(changeItemId, newPrice);
+                System.out.println("Item price changed successfully.");
+                showManageShopItemsMenu();
+                break;
+            case 4:
+                ArrayList<item> allItems = shop.getAllItems();
+                for (int i = 0; i < allItems.size(); i++) {
+                    item currentItem = allItems.get(i);
+                    System.out.println("Item ID: " + currentItem.getItemID());
+                    System.out.println("Item Name: " + currentItem.getItemName());
+                    System.out.println("Unit Price: " + currentItem.getUnitPrice());
+                    System.out.println("Quantity: " + currentItem.getQuantity());
+                    System.out.println("Qty Amount/Price: " + currentItem.getQtyAmount());
+                    System.out.println("-----------------");
+                }
+                showManageShopItemsMenu();
+                break;
+            case 5:
+                showMainMenu();
+                break;
+            default:
+                System.out.println("Invalid selection, please try again.");
+                showManageShopItemsMenu();
+                break;
+        }
+    }
+
+    public void showCreateNewInvoiceMenu() {
+        this.createNewInvoiceMenuSelectionCount++;
+        System.out.println("--- Create New Invoice ---");
+        Scanner scanner = new Scanner(System.in);
+        invoice newInvoice = new invoice();
+        ArrayList<item> items = shop.getAllItems();
+        System.out.print("Please enter the customer's full name: ");
+        String customerName = scanner.nextLine();
+        newInvoice.setCustomerFullName(customerName);
+        System.out.print("Please enter the customer's phone number: ");
+        String customerPhone = scanner.nextLine();
+        newInvoice.setCustomerPhone(customerPhone);
+        boolean addMoreItems = true;
+        double totalPrice = 0;
+        while (addMoreItems) {
+            System.out.print("Please enter the item ID: ");
+            int itemID = scanner.nextInt();
+            scanner.nextLine();
+            boolean isValid = false;
+            for (item i : items) {
+                if (i.getItemID() == itemID) {
+                    System.out.print("Please enter the quantity: ");
+                    int quantity = scanner.nextInt();
+                    scanner.nextLine();
+                    totalPrice += i.getUnitPrice() * quantity;
+                    i.setQuantity(quantity);
+                    newInvoice.addItem(i);
+                    newInvoice.setTotalAmount(totalPrice);
+                    isValid = true;
+                    break;
+                }
+            }
+            if (!isValid) {
+                System.out.println("Invalid item ID, please try again");
+            } else {
+                System.out.print("Do you want to add more items? (y/n) ");
+                String addMore = scanner.nextLine();
+                if (addMore.equalsIgnoreCase("n")) {
+                    addMoreItems = false;
+                }
+            }
+        }
+        System.out.print("Please enter the paid amount: ");
+        double paidAmount = scanner.nextDouble();
+        scanner.nextLine();
+        newInvoice.setPaidAmount1(paidAmount);
+        newInvoice.setBalance(  paidAmount - newInvoice.getTotalAmount() );
+        newInvoice.setInvoiceNo(shop.getNumberOfInvoices() + 1);
+        newInvoice.setInvoiceDate(new Date());
+        shop.createNewInvoice(newInvoice);
+        System.out.println("Invoice created successfully.");
+        System.out.println("");
+        System.out.println("");
+        System.out.println("");
+        System.out.println("Shop:"+shop.getShopName()+" Tel: "+shop.getTel()+"  Fax: "+shop.getFax()+"  Eamil: "+ shop.getEmail()+" Website: "+shop.getWebsite());
+        System.out.println("Invoice No: " + newInvoice.getInvoiceNo());
+        System.out.println("Invoice Date: " + newInvoice.getInvoiceDate());
+        System.out.println("Customer Name: " + newInvoice.getCustomerFullName());
+        System.out.println("Customer Phone: " + newInvoice.getCustomerPhone());
+        System.out.println("");
+        System.out.println("-------------------------------------------------------------------------------");
+        System.out.println("Item ID\tItem Name\tUnit Price\tQuantity\tTotal Price");
+        for (item i : newInvoice.getItems()) {
+            System.out.println(i.getItemID() + "\t" + i.getItemName() + "\t        " + i.getUnitPrice() + "\t        " + i.getQuantity() + "\t             " + i.getUnitPrice()*i.getQuantity());
+        }
+        System.out.println("-------------------------------------------------------------------------------");
+        System.out.println("");
+        System.out.println("");
+        System.out.println("Total Amount: " + newInvoice.getTotalAmount());
+        System.out.println("Paid Amount: " + newInvoice.getPaidAmount());
+        System.out.println("Balance: " + newInvoice.getBalance());
+        showMainMenu();
+    }
+
+
+
+    public void showReportStatisticsMenu() {
+        this.reportStatisticsMenuSelectionCount++;
+        System.out.println("--- Report: Statistics ---");
+        try {
+            double totalSales = shop.getTotalSales();
+            int numberOfItems = shop.getNumberOfItems();
+            int numberOfInvoices = shop.getNumberOfInvoices();
+            System.out.println("Total Sales: " + totalSales);
+            System.out.println("Number of Items Sold: " + numberOfItems);
+            System.out.println("Number of Invoices Created: " + numberOfInvoices);
+        } catch (Exception e) {
+            System.out.println("An error occurred while trying to print the statistics: " + e.getMessage());
+        }
+    
+        showMainMenu();
+    }
+
+    public void showReportAllInvoicesMenu() {
+        this.reportAllInvoicesMenuSelectionCount++;
+        System.out.println("--- Report: All Invoices ---");
+        ArrayList<invoice> allInvoices = shop.getAllInvoices();
+        for (int i = 0; i < allInvoices.size(); i++) {
+            invoice currentInvoice = allInvoices.get(i);
+            System.out.println("Invoice No: " + currentInvoice.getInvoiceNo());
+            System.out.println("Invoice Date: " + currentInvoice.getInvoiceDate());
+            System.out.println("Customer Name: " + currentInvoice.getCustomerFullName());
+            System.out.println("Phone Number: " + currentInvoice.getCustomerPhone());
+            System.out.println("Number of items: " + currentInvoice.getNumberOfItems());
+            System.out.println("Total amount: " + currentInvoice.getTotalAmount());
+            System.out.println("Paid amount: " + currentInvoice.getPaidAmount());
+            System.out.println("Balance: " + currentInvoice.getBalance());
+            System.out.println("-----------------");
+        }
+        showMainMenu();
+    }
+
+    public void showSearchInvoiceMenu() {
+        this.searchInvoiceMenuSelectionCount++;
+        System.out.println("--- Search Invoice ---");
+        System.out.print("Please enter the invoice number: ");
+
+        Scanner scanner = new Scanner(System.in);
+        int invoiceNo = scanner.nextInt();
+
+        invoice invoice = shop.getInvoice(invoiceNo);
+        if (invoice != null) {
+            System.out.println("Invoice found:");
+            // display the details of the invoice
+            System.out.println("Invoice No: " + invoice.getInvoiceNo());
+            System.out.println("Customer Name: " + invoice.getCustomerFullName());
+            System.out.println("Customer Phone: " + invoice.getCustomerPhone());
+            System.out.println("Invoice Date: " + invoice.getInvoiceDate());
+            System.out.println("Total Amount: " + invoice.getTotalAmount());
+            System.out.println("Paid Amount: " + invoice.getPaidAmount());
+            System.out.println("Balance: " + invoice.getBalance());
+        } else {
+            System.out.println("No invoice found with number " + invoiceNo + ".");
+        }
+        System.out.print("Enter any key to continue: ");
+        scanner.next();
+        showMainMenu();
+    }
+
+    public void showProgramStatisticsMenu() {
+        this.programStatisticsMenuSelectionCount++;
+        System.out.println("--- Program Statistics ---");
+        System.out.println("1. Shop Settings: " + shopSettingsMenuSelectionCount + " selections");
+        System.out.println("2. Manage Shop Items: " + manageShopItemsMenuSelectionCount + " selections");
+        System.out.println("3. Create New Invoice: " + createNewInvoiceMenuSelectionCount + " selections");
+        System.out.println("4. Report: Statistics: " + reportStatisticsMenuSelectionCount + " selections");
+        System.out.println("5. Report: All Invoices: " + reportAllInvoicesMenuSelectionCount + " selections");
+        System.out.println("6. Search (by Invoice No): " + searchInvoiceMenuSelectionCount + " selections");
+        showMainMenu();
+    }
+  
+
+}
