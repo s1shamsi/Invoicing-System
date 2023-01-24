@@ -25,7 +25,7 @@ public class shop {
       }
 
       public String getShopName() {
-          return this.shopName;
+          return shopName;
       }
 
       public void setTel(String tel) {
@@ -33,7 +33,7 @@ public class shop {
       }
 
       public String getTel() {
-          return this.tel;
+          return tel;
       }
 
       public void setFax(String fax) {
@@ -41,7 +41,7 @@ public class shop {
       }
 
       public String getFax() {
-          return this.fax;
+          return fax;
       }
 
       public void setEmail(String email) {
@@ -49,7 +49,7 @@ public class shop {
       }
 
       public String getEmail() {
-          return this.email;
+          return email;
       }
 
       public void setWebsite(String website) {
@@ -57,7 +57,7 @@ public class shop {
       }
 
       public String getWebsite() {
-          return this.website;
+          return website;
       }
 
       public void addItem(item item) {
@@ -89,38 +89,38 @@ public class shop {
     
 
       public ArrayList<item> getAllItems() {
-          return this.items;
+          return items;
       }
 
       public void createNewInvoice(invoice invoice) {
-          this.invoices.add(invoice);
+          invoices.add(invoice);
       }
 
       public ArrayList<invoice> getAllInvoices() {
-          return this.invoices;
+          return invoices;
       }
 
       public invoice getInvoice(int invoiceNo) {
           for (int i = 0; i < this.invoices.size(); i++) {
               if (this.invoices.get(i).getInvoiceNo() == invoiceNo) {
-                  return this.invoices.get(i);
+                  return invoices.get(i);
               }
           }
           return null;
       }
 
       public int getNumberOfItems() {
-          return this.items.size();
+          return items.size();
       }
 
       public int getNumberOfInvoices() {
-          return this.invoices.size();
+          return invoices.size();
       }
 
       public double getTotalSales() {
           double totalSales = 0;
-          for (int i = 0; i < this.invoices.size(); i++) {
-              totalSales += this.invoices.get(i).getTotalAmount();
+          for (int i = 0; i < invoices.size(); i++) {
+              totalSales += invoices.get(i).getTotalAmount();
           }
           return totalSales;
       }
@@ -178,25 +178,25 @@ public class shop {
     	        // Saving items
     	        FileOutputStream fos = new FileOutputStream("C:\\Users\\Lenovo\\eclipse-workspace\\invoicingSystem\\items.txt");
     	        ObjectOutputStream oos = new ObjectOutputStream(fos);
-    	        oos.writeObject(this.items);
+    	        oos.writeObject(items);
     	        oos.close();
     	        fos.close();
 
     	        // Saving invoices
     	        FileOutputStream fos1 = new FileOutputStream("C:\\Users\\Lenovo\\eclipse-workspace\\invoicingSystem\\invoices.txt");
     	        ObjectOutputStream oos1 = new ObjectOutputStream(fos1);
-    	        oos1.writeObject(this.invoices);
+    	        oos1.writeObject(invoices);
     	        oos1.close();
     	        fos1.close();
 
     	        // Saving shop details
     	        FileOutputStream fos2 = new FileOutputStream("C:\\Users\\Lenovo\\eclipse-workspace\\invoicingSystem\\shopDetails.txt");
     	        ObjectOutputStream oos2 = new ObjectOutputStream(fos2);
-    	        oos2.writeUTF(this.shopName);
-    	        oos2.writeUTF(this.tel);
-    	        oos2.writeUTF(this.fax);
-    	        oos2.writeUTF(this.email);
-    	        oos2.writeUTF(this.website);
+    	        oos2.writeUTF(shopName);
+    	        oos2.writeUTF(tel);
+    	        oos2.writeUTF(fax);
+    	        oos2.writeUTF(email);
+    	        oos2.writeUTF(website);
     	        oos2.close();
     	        fos2.close();
     	        } catch (Exception e) {
