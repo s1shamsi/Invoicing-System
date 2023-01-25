@@ -15,7 +15,7 @@ public class invoice implements Serializable {
     private double paidAmount =0;
     private double balance =0;
     private Date invoiceDate;
-     ArrayList<item> items = new ArrayList();
+     ArrayList<item> items = new ArrayList<item>();
     
     public void setCustomerFullName(String name) {
     	this.customerFullName= name;
@@ -35,9 +35,7 @@ public class invoice implements Serializable {
     public Date getInvoiceDate() {
         return invoiceDate;
     }
-public ArrayList<item> getItems() {
-        return items;
-    }
+
     public void setTotalAmount(double tprice) {
     	this.totalAmount= tprice;
     }
@@ -61,11 +59,6 @@ public ArrayList<item> getItems() {
     public double getBalance() {
         return balance;
     }
-    public void addItem(item item) {
-        items.add(item);
-        numberOfItems++;
-        totalAmount += item.getTotalPrice();
-    }
 
 	public void setInvoiceNo(int no) {
 		
@@ -87,4 +80,13 @@ public ArrayList<item> getItems() {
 			
 			return numberOfItems;
 		}
+    public ArrayList<item> getItems() {
+        return items;
+    }
+    public void addItem(item item) {
+        items.add(item);
+        numberOfItems++;
+        totalAmount += item.getTotalPrice();
+    }
+
     }

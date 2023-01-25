@@ -166,6 +166,7 @@ public class menu {
                 System.out.println("Item added successfully.");
                 showManageShopItemsMenu();
                 break;
+                
             case 2:
                 System.out.print("Please enter the item ID: ");
                 int deleteItemId = scanner.nextInt();
@@ -206,7 +207,7 @@ public class menu {
     }
 
     public void showCreateNewInvoiceMenu() {
-        this.createNewInvoiceMenuSelectionCount++;
+        createNewInvoiceMenuSelectionCount++;
         System.out.println("--- Create New Invoice ---");
         Scanner scanner = new Scanner(System.in);
         invoice newInvoice = new invoice();
@@ -266,9 +267,9 @@ public class menu {
         System.out.println("Customer Phone: " + newInvoice.getCustomerPhone());
         System.out.println("");
         System.out.println("-------------------------------------------------------------------------------");
-        System.out.println("Item ID\tItem Name\tUnit Price\tQuantity\tTotal Price");
+        System.out.println("Item ID\t\tItem Name\tUnit Price\tQuantity\tTotal Price");
         for (item i : newInvoice.getItems()) {
-            System.out.println(i.getItemID() + "\t" + i.getItemName() + "\t        " + i.getUnitPrice() + "\t        " + i.getQuantity() + "\t             " + i.getUnitPrice()*i.getQuantity());
+            System.out.println(i.getItemID() + "\t \t" + i.getItemName() + "\t        " + i.getUnitPrice() + "\t        " + i.getQuantity() + "\t             " + i.getUnitPrice()*i.getQuantity());
         }
         System.out.println("-------------------------------------------------------------------------------");
         System.out.println("");
@@ -276,13 +277,18 @@ public class menu {
         System.out.println("Total Amount: " + newInvoice.getTotalAmount());
         System.out.println("Paid Amount: " + newInvoice.getPaidAmount());
         System.out.println("Balance: " + newInvoice.getBalance());
+        System.out.println("");
+        System.out.println("");
+        System.out.println("------------------------- Thank you, visit us soon! ---------------------------");
+        System.out.println("");
+        System.out.println("");
         showMainMenu();
     }
 
 
 
     public void showReportStatisticsMenu() {
-        this.reportStatisticsMenuSelectionCount++;
+        reportStatisticsMenuSelectionCount++;
         System.out.println("--- Report: Statistics ---");
         try {
             double totalSales = shop.getTotalSales();

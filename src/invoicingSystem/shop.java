@@ -16,8 +16,8 @@ public class shop {
       private String fax;
       private String email;
       private String website;
-       ArrayList<item> items= new ArrayList();
-       ArrayList<invoice> invoices = new ArrayList();
+       ArrayList<item> items= new ArrayList<item>();
+       ArrayList<invoice> invoices = new ArrayList<invoice>();
 
 
       public void setShopName(String shopName) {
